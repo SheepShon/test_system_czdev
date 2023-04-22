@@ -1,0 +1,221 @@
+* {
+	margin: 0px;
+	padding: 0px;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+	overflow: none;
+}
+
+.content { 
+	max-width: 1000px;
+	max-height: 600px;
+	background-image: url("img/background.jpeg");
+	background-size: cover;
+	margin: 0 auto;
+	display: flex;
+    flex-direction: row-reverse;
+ }
+
+.version {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: lightgray;
+    font-size: 10px;
+    user-select: none;
+}
+
+.quote {
+    height: 300px;
+    width: 440px;
+    margin: 0 auto;
+    user-select: none;
+}
+
+.quote p {
+    color: white;
+    font-size: 26px;
+    text-align: center;
+    margin: 280px auto 30px auto;
+    font-weight: 300;
+}  
+
+.quote span {
+        color: white;
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 175px;
+    text-align: right;
+}
+
+.side-bar {
+ 	width: 50%;
+ 	background: white;
+ 	height: 600px;
+ 	padding: 70px;
+ 	box-sizing:border-box;
+}
+
+.side-bar-content {
+ 	text-align: center;
+ 	width: 100%;
+}
+
+.caption {
+ 	height: 30px;
+    font-size: 30px;
+    cursor: default;
+    font-weight: 700;
+    user-select: none;
+ }
+
+.auth_message {
+ 	height: 20px;
+ 	cursor: default;
+ 	font-size: 12px;
+ 	font-weight: 600;
+    margin: 60px auto;
+}
+
+.field {
+ 	width: 100%;
+ 	height: 70px;
+    margin-bottom: 10px;
+ 	text-align: left;
+}
+
+.field p {
+ 	font-size: 13px;
+ 	font-weight: 600;
+ 	cursor: default;
+    user-select: none;
+}
+
+.field input {
+ 	width: 100%;
+ 	padding: 12px;
+ 	box-sizing:border-box;
+ 	border-radius: 5px;
+ 	border: 1px solid lightgray;
+ 	margin-top: 8px;
+ 	font-size: 12px;
+    font-weight: 500;
+ }
+
+.buttons {
+	display: flex;
+    justify-content: space-between;
+    margin-top: 70px;
+    user-select: none;
+}
+
+button {
+	padding: 13px 25px;
+	color: white;
+	background: #2563eb;
+	border-radius: 7px;
+	border: 1px solid #2563eb;
+	font-weight: 500;
+	cursor: pointer;
+}
+
+ .restore {
+ 	font-size: 11px;
+ 	color: #2563eb;
+ 	cursor: default;
+    user-select: none;
+    margin-top: 50px;
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+.register_layout {
+    height: 400px;
+    margin-top: 50px;
+    overflow-y: scroll;
+    overflow-x: none;
+    padding-right: 10px;
+    scroll-behavior: smooth;
+}
+
+.register_layout::-webkit-scrollbar {
+  width: 5px;               /* ширина всей полосы прокрутки */
+}
+
+.register_layout::-webkit-scrollbar-track {
+  background: white;        /* цвет зоны отслеживания */
+}
+
+
+.register_layout::-webkit-scrollbar-thumb {
+  background-color: #2563eb;    /* цвет бегунка */
+  border-radius: 20px;       /* округлось бегунка */
+  border: 3px solid #2563eb;  /* отступ вокруг бегунка */
+}
+
+
+.flex_field {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 20px;
+}
+
+
+.photos_container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.photos_container p {
+    font-size: 14px;
+    font-weight: 600;
+    height: 25px;
+    margin-top: 20px;
+}
+
+.photos div {
+    width: 160px;
+    height: 180px;
+}
+
+.load_photo {
+    background: gray;
+    width: 160px;
+    height: 160px;
+}
+
+
+
+
+
+
+ .err_msg {
+ 	color: red;
+    user-select: none;
+ }
+
+ .acc_msg {
+ 	color: green;
+    user-select: none;
+ }
+
+ .hide {
+ 	display: none;
+ }
+
+ .visible {
+ 	display: initial;
+ }

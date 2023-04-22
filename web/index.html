@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link rel="stylesheet" type="text/css" href="fonts.css">
+	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<script src="jquery-3.6.4.min.js"></script>
+	<script src="eel.js"></script>
+	<title>Информационная система</title>
+</head>
+<body>
+	<div class="content">
+		<div class="side-bar">
+			<div class="side-bar-content">
+				<span class="version">czt_alpha_0.2</span>
+				<div class="caption">
+					<p id="caption">Добро пожаловать!</p>
+				</div>
+
+				<div class="auth_layout">
+
+					<div class="auth_message">
+						<p id="auth_mess" class="err_msg"> </p>
+					</div>
+					
+					<div class="field">
+						<p>Номер жетона</p>
+						<input type="text" id="login" name="">
+					</div>
+
+					<div class="field">
+						<p>Пароль</p>
+						<input type="text" id="password" name="">
+					</div>
+
+					<div class="buttons">
+						<button onclick="load_register_layout()">Регистрация</button>
+						<button onclick="sendDataAuth()">Войти</button>
+					</div>
+
+					<div class="restore">
+						<p>Для восстановления данных обратитесь к администратору</p>
+					</div>
+
+				</div>
+
+				<div class="register_layout">
+					<div class="field">
+						<p>Фамилия</p>
+						<input type="text" id="second_name" name="">
+					</div>
+
+					<div class="field">
+						<p>Имя</p>
+						<input type="text" id="first_name" name="">
+					</div>
+
+					<div class="field">
+						<p>Отчество</p>
+						<input type="text" id="thrid_name" name="">
+					</div>
+
+					<div class="field flex_field">
+						<div class="subfield" style="width: 60px;">
+							<p>Пол</p>
+							<input type="text" id="thrid_name" name="">
+						</div>
+
+						<div class="subfield" style="width: 100px;">
+							<p>Дата рождения</p>
+							<input type="text" id="thrid_name" name="">
+						</div>
+
+						<div class="subfield" style="width: 100px;">
+							<p>Семейное положение</p>
+							<input type="text" id="thrid_name" name="">
+						</div>
+					</div>
+
+					<div class="field">
+						<p>Номер жетона</p>
+						<input type="text" id="badge" name="">
+					</div>
+
+					<div class="field">
+						<p>Должность</p>
+						<input type="text" id="position" name="">
+					</div>
+
+					<div class="field">
+						<p>Воинское звание</p>
+						<input type="text" id="rang" name="">
+					</div>
+
+					<div class="field flex_field">
+						<div class="subfield" style="width: 160px;">
+							<p>Факультет</p>
+							<input type="text" id="faculty" name="">
+						</div>
+
+						<div class="subfield" style="width: 90px;">
+							<p>Курс</p>
+							<input type="text" id="course" name="">
+						</div>
+					</div>
+
+					<div class="field flex_field">
+						<div class="subfield" style="width: 160px;">
+							<p>Учебное отделение</p>
+							<input type="text" id="department" name="">
+						</div>
+
+						<div class="subfield" style="width: 160px;">
+							<p>Код специальности</p>
+							<input type="text" id="spec_code" name="">
+						</div>
+					</div>	
+
+					<div class="field">
+						<p>Пароль</p>
+						<input type="text" id="password" name="">
+					</div>
+
+					<div class="photos_container">
+						<div>
+							<p>Личное фото</p>
+							<div id="avatar_photo" class="load_photo">
+								<img src="" id="image" style="max-height: 160px; display: none;"/>
+							</div>
+						</div>
+						<div>
+							<p>Фото ВУ</p>
+							<div id="vd_photo" class="load_photo"></div>
+						</div>
+					</div>
+
+					<input type="file" id="file" />
+					
+					<div class="buttons">
+						<button onclick="load_auth_layout()">Назад</button>
+						<button onclick="sendDataRegister()">Создать аккаунт</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="quote">
+			<p>«Теория без практики мертва, практика без теории слепа»</p>
+			<span>Генералиссимуc Суворов А.В.</span>
+		</div>
+	</div>
+
+
+	<script type="text/javascript">
+		$(".register_layout").hide();
+
+
+		eel.expose(py_redirect)
+		function py_redirect(url) {
+			window.location = url;
+		}
+
+		eel.expose(py_send_msg)
+		function py_send_msg(mess) {
+			$("#auth_mess").text(mess);
+		}
+
+
+		async function sendDataAuth() {
+			let login = $("#login").val();
+			let password = $("#password").val();
+
+			if(login && password) {
+				eel.check_user(login, password);
+			} else {
+				$("#auth_mess").text("Заполнены не все поля");
+				console.log("net")
+			}
+		}
+
+		function load_register_layout() {
+			$(".auth_layout").hide();
+			$(".register_layout").show();
+			$("#caption").text("Создание аккаунта");
+		}
+
+		function load_auth_layout() {
+			$(".auth_layout").show();
+			$(".register_layout").hide();
+			$("#caption").text("Добро пожаловать!");
+		}
+
+		window.onresize = function () {
+			window.resizeTo(1016,639);
+		}
+
+		let image = document.getElementById("image");
+		let file = document.getElementById("file");
+
+		file.addEventListener('change', function(){
+		  image.src = URL.createObjectURL(file.files[0]);
+		  image.style.display = "block";
+		});
+
+		document.oncontextmenu = function (){return false};
+	</script>
+</body>
+</html>
