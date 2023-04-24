@@ -1,17 +1,206 @@
+<?php
+	$badge = $_GET["badge"];
+	echo($badge);
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" type="text/css" href="styles.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="styles-main.css">
 	<link rel="stylesheet" type="text/css" href="fonts.css">
-	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="img/favicon.svg">
 	<script src="jquery-3.6.4.min.js"></script>
 	<script src="eel.js"></script>
 	<title>Информационная система</title>
 </head>
 <body>
-	<div class="content">
-	</div>
+		<span class="version">czt_v0.2.2_alpha</span>
+		<div class="content">
+			<div class="user_info">
+				<div class="avatar"></div>
+				<div class="user_info_text">
+					<p id="user_info_full_name" class="user_info_name">
+						<span id="user_info_second_name">NaN</span>
+						<span id="user_info_first_name">NaN</span>
+						<span id="user_info_third_name">NaN</span>
+					</p>
+					<p id="user_info_badge">NaN</p>
+					<p id="user_info_position">NaN</p>
+					<p id="user_info_rang">NaN</p>
+					<p id="user_info_faculty">NaN</p>
+					<p id="user_info_department">NaN</p>
+				</div>
+				<div class="controls">
+				</div>
+			</div>
+
+
+
+			<div class="test_list">
+				<!-- <div class="theme">
+					<p class="theme_name">Основы профессионально-должностной подготовки</p>
+					<div class="theme_test_list">
+
+						<div class="test">
+							<div class="test_img"></div>
+							<div class="test_info">
+								<p class="test_name">Военно-политическая работа</p>
+								<div class="question_info">
+									<div class="test_time">
+										<div class="test_time_img"></div>
+										<p><span>120</span> мин</p>
+									</div>
+
+									<div class="test_questions">
+										<div class="test_questions_img"></div>
+										<p><span>30</span> вопросов</p>
+									</div>
+								</div>
+	
+								<button class="test_btn">Начать тест</button>
+							</div>
+						</div>
+
+
+						<div class="test">
+							<div class="test_img"></div>
+							<div class="test_info">
+								<p class="test_name">Военно-политическая работа</p>
+								<div class="question_info">
+									<div class="test_time">
+										<div class="test_time_img"></div>
+										<p><span>120</span> мин</p>
+									</div>
+
+									<div class="test_questions">
+										<div class="test_questions_img"></div>
+										<p><span>30</span> вопросов</p>
+									</div>
+								</div>
+	
+								<button class="test_btn">Начать тест</button>
+							</div>
+						</div>
+
+						<div class="test">
+							<div class="test_img"></div>
+							<div class="test_info">
+								<p class="test_name">Военно-политическая работа</p>
+								<div class="question_info">
+									<div class="test_time">
+										<div class="test_time_img"></div>
+										<p><span>120</span> мин</p>
+									</div>
+
+									<div class="test_questions">
+										<div class="test_questions_img"></div>
+										<p><span>30</span> вопросов</p>
+									</div>
+								</div>
+	
+								<button class="test_btn">Начать тест</button>
+							</div>
+						</div>
+
+					</div>	
+				</div> -->
+
+				<!-- <div class="theme">
+					<p class="theme_name">Название темы 2</p>
+					<div class="theme_test_list">
+
+						<div class="test">
+							<div class="test_img"></div>
+							<div class="test_info">
+								<p class="test_name">Военно-политическая работа</p>
+								<div class="question_info">
+									<div class="test_time">
+										<div class="test_time_img"></div>
+										<p><span>120</span> мин</p>
+									</div>
+
+									<div class="test_questions">
+										<div class="test_questions_img"></div>
+										<p><span>30</span> вопросов</p>
+									</div>
+								</div>
+	
+								<button class="test_btn">Начать тест</button>
+							</div>
+						</div>
+
+						<div class="test">
+							<div class="test_img"></div>
+							<div class="test_info">
+								<p class="test_name">Военно-политическая работа</p>
+								<div class="question_info">
+									<div class="test_time">
+										<div class="test_time_img"></div>
+										<p><span>120</span> мин</p>
+									</div>
+
+									<div class="test_questions">
+										<div class="test_questions_img"></div>
+										<p><span>30</span> вопросов</p>
+									</div>
+								</div>
+	
+								<button class="test_btn">Начать тест</button>
+							</div>
+						</div>
+
+					</div>	
+				</div> -->
+			</div>
+		</div>
+
+
+
+
+
+
+
+	<script type="text/javascript">
+
+		eel.expose(create_theme)
+		function create_theme(id, name) {
+			$(".test_list").append('<div class="theme"><p class="theme_name">'+name+'</p><div class="theme_test_list" id="theme_test_list_'+id+'"></div></div>');
+		}
+
+		eel.expose(create_test)
+		function create_test(id, name, time, questions) {
+			$("#theme_test_list_"+id).append('<div class="test"><div class="test_img"></div><div class="test_info"><p class="test_name">'+name+'</p><div class="question_info"><div class="test_time"><div class="test_time_img"></div><p>'+time+' мин</p></div><div class="test_questions"><div class="test_questions_img"></div><p>'+questions+' вопросов</p></div></div><button class="test_btn">Начать тест</button></div></div></div>');
+		}
+
+		eel.expose(py_send_data)
+		function py_send_data(field, value) {
+			$("#"+field).text(value);
+			console.log(field +" | "+ value);
+		}
+
+		eel.upd_data_main();
+		eel.crt_themes();
+		eel.crt_tests();
+
+		window.onresize = function () {
+			window.resizeTo(1016,639);
+		}
+
+		var permissons;
+
+		eel.expose(send_permission)
+		function send_permission(permission) {
+			console.log(permission);
+			if(permission == 1) {
+				$(".controls").append('<button>Панель управления</button>');
+				$(".controls").append('<button>Статистика</button>');
+			} else {
+				$(".controls").append('<button>Статистика</button>');
+			}
+		}
+
+	</script>
 </body>
 </html>

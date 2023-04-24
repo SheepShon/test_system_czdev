@@ -77,7 +77,11 @@ body {
  	cursor: default;
  	font-size: 12px;
  	font-weight: 600;
-    margin: 60px auto;
+    margin: 20px auto;
+}
+
+.auth_layout {
+    margin-top: 80px;
 }
 
 .field {
@@ -143,7 +147,7 @@ button {
 
 .register_layout {
     height: 400px;
-    margin-top: 50px;
+    margin-top: 20px;
     overflow-y: scroll;
     overflow-x: none;
     padding-right: 10px;

@@ -1,0 +1,179 @@
+* {
+	margin: 0px;
+	padding: 0px;
+    outline: none;
+    font-family: "Montserrat", sans-serif;
+}
+
+body {
+	overflow: none;
+}
+
+.version {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: lightgray;
+    font-size: 10px;
+    user-select: none;
+}
+
+.content {
+    width: 1000px;
+    height: 600px;
+    padding: 50px;
+    box-sizing:border-box;
+}
+
+.user_info {
+    display: flex;
+    justify-content: space-between;
+}
+
+.avatar {
+    width: 160px;
+    height: 160px;
+    background: gray;
+    background: url("img/user_no_image.svg") no-repeat;
+    background-size: cover;
+}
+
+.user_info_text {
+    width: 440px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.user_info_name {
+    font-weight: 800;
+    font-size: 22px;
+}
+
+.controls {
+    width: 270px;
+    text-align: right;
+}
+
+.controls button{
+    margin-bottom: 10px;
+}
+
+button {
+    padding: 13px 25px;
+    color: white;
+    background: #2563eb;
+    border-radius: 7px;
+    border: 1px solid #2563eb;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.test_list {
+    margin-top: 10px;
+    overflow-y: auto;
+    height: 340px;
+}
+
+.test_list::-webkit-scrollbar {
+  width: 5px;               /* ширина всей полосы прокрутки */
+}
+
+.test_list::-webkit-scrollbar-track {
+  background: white;        /* цвет зоны отслеживания */
+}
+
+
+.test_list::-webkit-scrollbar-thumb {
+  background-color: #2563eb;    /* цвет бегунка */
+  border-radius: 20px;       /* округлось бегунка */
+  border: 3px solid #2563eb;  /* отступ вокруг бегунка */
+}
+
+.theme_test_list {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.theme_name {
+    font-size: 20px;   
+    font-weight: 700;
+    margin: 10px 0px;
+}
+
+.test {
+    display: flex;
+    width: 445px;
+    margin: 10px 0px;
+    position:relative;
+}
+
+.test_img {
+    width: 200px;
+    height: 200px;
+    background: gray;
+    background: url("img/test_no_image.png") no-repeat;
+
+}
+
+.test_info {
+    margin-left: 10px;
+    width: 235px;
+}
+
+.test_name {
+    font-size: 15px;   
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.test_var {
+    font-size: 12px;   
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.test_time {
+    display: flex;
+    align-items: center;
+    margin: 5px 0px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.test_time_img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background: gray;
+    background: url("img/clock.png") no-repeat;
+}
+
+.test_questions {
+    display: flex;
+    align-items: center;
+    margin: 2px 0px 30px 0px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.question_info {
+    position: absolute;
+    bottom: 25px;
+}
+
+.test_questions_img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+    background: gray;
+    background: url("img/question.png") no-repeat;
+}
+
+.test_btn {
+    position:absolute;
+    bottom:0;
+}

@@ -2,10 +2,10 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	<link rel="stylesheet" type="text/css" href="fonts.css">
-	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="img/favicon.svg">
 	<script src="jquery-3.6.4.min.js"></script>
 	<script src="eel.js"></script>
 	<title>Информационная система</title>
@@ -14,25 +14,24 @@
 	<div class="content">
 		<div class="side-bar">
 			<div class="side-bar-content">
-				<span class="version">czt_alpha_0.2</span>
+				<span class="version">czt_v0.2.1_alpha</span>
 				<div class="caption">
 					<p id="caption">Добро пожаловать!</p>
 				</div>
 
-				<div class="auth_layout">
+				<div class="auth_message">
+					<p id="auth_mess" class="err_msg"> </p>
+				</div>
 
-					<div class="auth_message">
-						<p id="auth_mess" class="err_msg"> </p>
-					</div>
-					
+				<div class="auth_layout">					
 					<div class="field">
 						<p>Номер жетона</p>
-						<input type="text" id="login" name="">
+						<input type="text" id="badge_auth" name="">
 					</div>
 
 					<div class="field">
 						<p>Пароль</p>
-						<input type="text" id="password" name="">
+						<input type="text" id="password_auth" name="">
 					</div>
 
 					<div class="buttons">
@@ -65,23 +64,23 @@
 					<div class="field flex_field">
 						<div class="subfield" style="width: 60px;">
 							<p>Пол</p>
-							<input type="text" id="thrid_name" name="">
+							<input type="text" id="sex" name="">
 						</div>
 
 						<div class="subfield" style="width: 100px;">
 							<p>Дата рождения</p>
-							<input type="text" id="thrid_name" name="">
+							<input type="text" id="birth_date" name="">
 						</div>
 
 						<div class="subfield" style="width: 100px;">
 							<p>Семейное положение</p>
-							<input type="text" id="thrid_name" name="">
+							<input type="text" id="f_status" name="">
 						</div>
 					</div>
 
 					<div class="field">
 						<p>Номер жетона</p>
-						<input type="text" id="badge" name="">
+						<input type="text" id="badge_reg" name="">
 					</div>
 
 					<div class="field">
@@ -100,27 +99,15 @@
 							<input type="text" id="faculty" name="">
 						</div>
 
-						<div class="subfield" style="width: 90px;">
-							<p>Курс</p>
-							<input type="text" id="course" name="">
-						</div>
-					</div>
-
-					<div class="field flex_field">
 						<div class="subfield" style="width: 160px;">
 							<p>Учебное отделение</p>
 							<input type="text" id="department" name="">
 						</div>
-
-						<div class="subfield" style="width: 160px;">
-							<p>Код специальности</p>
-							<input type="text" id="spec_code" name="">
-						</div>
-					</div>	
+					</div>
 
 					<div class="field">
 						<p>Пароль</p>
-						<input type="text" id="password" name="">
+						<input type="text" id="password_reg" name="">
 					</div>
 
 					<div class="photos_container">
@@ -158,7 +145,7 @@
 
 		eel.expose(py_redirect)
 		function py_redirect(url) {
-			window.location = url;
+			window.location.replace(url);
 		}
 
 		eel.expose(py_send_msg)
@@ -166,29 +153,67 @@
 			$("#auth_mess").text(mess);
 		}
 
+		eel.expose(change_mes_color)
+		function change_mes_color(status) {
+			if(status == 1) {
+				$("#auth_mess").removeClass('err_mes');
+				$("#auth_mess").addClass('acc_msg');
+			} else {
+				$("#auth_mess").removeClass('acc_msg');
+				$("#auth_mess").addClass('err_mes');
+			}
+		}
+
+		eel.expose(load_register_layout)
+		function load_register_layout() {
+			$(".auth_layout").hide();
+			$(".register_layout").show();
+			$("#auth_mess").text("");
+			$("#caption").text("Создание аккаунта");
+		}
+
+		eel.expose(load_auth_layout)
+		function load_auth_layout() {
+			$(".auth_layout").show();
+			$(".register_layout").hide();
+			$("#auth_mess").text("");
+			$("#caption").text("Добро пожаловать!");
+		}
 
 		async function sendDataAuth() {
-			let login = $("#login").val();
-			let password = $("#password").val();
+			let login = $("#badge_auth").val();
+			let password = $("#password_auth").val();
 
 			if(login && password) {
 				eel.check_user(login, password);
 			} else {
 				$("#auth_mess").text("Заполнены не все поля");
-				console.log("net")
 			}
 		}
 
-		function load_register_layout() {
-			$(".auth_layout").hide();
-			$(".register_layout").show();
-			$("#caption").text("Создание аккаунта");
-		}
+		async function sendDataRegister() {
+			let second_name = 	$("#second_name").val();
+			let first_name = 	$("#first_name").val();
+			let thrid_name = 	$("#thrid_name").val();
+			let sex = 			$("#sex").val();
+			let birth_date = 	$("#birth_date").val();
+			let f_status = 		$("#f_status").val();
+			let badge = 		$("#badge_reg").val();
+			let position = 		$("#position").val();
+			let rang = 			$("#rang").val();
+			let faculty = 		$("#faculty").val();
+			let department = 	$("#department").val();
+			let password = 		$("#password_reg").val();
+			let avatar_path = 	"avatar_path";
+			let vd_path = 		"vd_path";
 
-		function load_auth_layout() {
-			$(".auth_layout").show();
-			$(".register_layout").hide();
-			$("#caption").text("Добро пожаловать!");
+			if(second_name && first_name  && thrid_name && sex && birth_date && f_status && badge && position && rang && faculty && department && password) {
+				eel.register_user(second_name, first_name , thrid_name, sex, birth_date, f_status, badge, position, rang, faculty, department, password, avatar_path, vd_path);
+				$("#auth_mess").text("Аккаунт успешно зарегистрирован");
+			} else {
+				$("#auth_mess").text("Заполнены не все поля");
+				console.log(second_name+" | "+first_name+" | "+thrid_name+" | "+sex+" | "+birth_date+" | "+f_status+" | "+badge+" | "+position+" | "+rang+" | "+faculty+" | "+department+" | "+password)
+			}
 		}
 
 		window.onresize = function () {
