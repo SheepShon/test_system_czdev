@@ -9,6 +9,15 @@ body {
 	overflow: none;
 }
 
+.version {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    color: lightgray;
+    font-size: 10px;
+    user-select: none;
+}
+
 .test_content {
     padding: 50px;
     height: 500px;
