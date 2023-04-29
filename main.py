@@ -7,8 +7,12 @@ eel.init("web")
 db = sqlite3.connect("database.db")
 sql = db.cursor()
 
+app_version = "czt_v0.2.3_alpha"
+
 user_id = 0
 user_info = {}
+test_id = 0
+questions = []
 
 sql.execute("""CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
@@ -70,6 +74,10 @@ db.commit()
 # db.commit()
 
 @eel.expose
+def get_app_version():
+    eel.upd_app_version(app_version)
+
+@eel.expose
 def check_user(user_login, user_password):
     global user_id, user_info
     print(f"def check_user ({user_login},{user_password})")
@@ -80,7 +88,6 @@ def check_user(user_login, user_password):
         eel.change_mes_color(0)
         eel.py_send_msg("Аккаунт не найден")
     else:
-        print("redirect to main.html")
         sql.execute(f"SELECT * FROM users WHERE badge = '{user_login}'")
         db.commit()
         user_info = sql.fetchone()
@@ -89,6 +96,7 @@ def check_user(user_login, user_password):
             eel.py_redirect("main.html")
             eel.change_mes_color(1)
             eel.py_send_msg("Успешная авторизация")
+            print(f"redirect to main.html, load user_id = {user_id}")
         else:
             eel.change_mes_color(0)
             eel.py_send_msg("Жетон или пароль указаны не верно")
@@ -105,6 +113,65 @@ def upd_data_main():
     eel.py_send_data("user_info_department", user_info[11])
     eel.send_permission(user_info[5])
 
+@eel.expose
+def upd_data_test():
+    eel.py_send_data("user_info_second_name", user_info[2])
+    eel.py_send_data("user_info_first_name", user_info[3])
+    eel.py_send_data("user_info_third_name", user_info[4])
+    eel.py_send_data("user_info_position", user_info[7])
+    eel.py_send_data("user_info_rang", user_info[6]) 
+
+    sql.execute(f"SELECT COUNT(*) FROM questions WHERE test_id={test_id}")
+    res = sql.fetchone()
+    eel.py_send_data("questions_progress_vsego", res[0])
+
+@eel.expose
+def upd_end_data_test():
+    sql.execute(f"SELECT * FROM tests WHERE id={test_id}")
+    res = sql.fetchone()
+    print(res)
+    eel.py_send_data("end_test_name", res[1])
+
+@eel.expose
+def get_test_id():
+    eel.set_test_id(test_id)
+
+
+@eel.expose
+def py_get_right_answer(question_id):
+    sql.execute(f"SELECT answer FROM questions WHERE id={question_id}")
+    res = sql.fetchone()
+    eel.get_right_answer(res[0])
+
+
+@eel.expose
+def upd_test_question(test_id, question_id):
+    print(f"upd test id: {test_id}, question_id: {question_id}")
+    sql.execute(f"SELECT * FROM questions WHERE test_id={test_id}")
+    res = sql.fetchall()
+
+    eel.upd_question_text(res[question_id-1][2]) # Обновить текст вопроса
+
+    db_question_id = res[question_id-1][0]
+    eel.set_db_question_id(db_question_id)
+
+     
+    sql.execute(f"SELECT DISTINCT question_id FROM variants WHERE test_id = {test_id}") # Получить уникальные ID вопросов
+    res = sql.fetchall()
+
+    for i in range(0, len(res)):
+        questions.insert(i, res[i][0])
+
+    qid = questions[question_id-1]
+    sql.execute(f"SELECT COUNT(*) FROM variants WHERE test_id = {test_id} AND question_id = {qid}")
+    cnt = sql.fetchone()
+
+    for i in range(0, cnt[0]):
+        qid = questions[question_id-1]
+        sql.execute(f"SELECT * FROM variants WHERE test_id = {test_id} AND question_id = {qid}")
+        qve = sql.fetchall()
+        eel.add_answer_test(qve[i][0], qve[i][1])
+    
 @eel.expose
 def crt_themes():
     sql.execute(f"SELECT COUNT(*) FROM themes")
@@ -126,10 +193,16 @@ def crt_tests():
     for i in range(1,count+1):
         sql.execute(f"SELECT * FROM tests WHERE id={i}")
         res = sql.fetchone()
-        eel.create_test(res[3], res[1], res[2], 0)
+        sql.execute(f"SELECT COUNT(*) FROM questions WHERE test_id={i}")
+        res_2 = sql.fetchone()
+        eel.create_test(res[3], res[1], res[2], res_2[0], i)
 
-        
-
+@eel.expose
+def load_test(id):
+    global test_id
+    test_id = id
+    print(f"redirect to test.html, load test_id = {test_id}")
+    eel.py_redirect("test.html")
 
 @eel.expose
 def register_user(second_name, first_name, thrid_name, sex, birth_date, f_status, badge, position, rang, faculty, department, password, avatar_path, vd_path):

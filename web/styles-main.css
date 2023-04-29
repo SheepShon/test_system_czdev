@@ -3,6 +3,7 @@
 	padding: 0px;
     outline: none;
     font-family: "Montserrat", sans-serif;
+    user-select: none;
 }
 
 body {

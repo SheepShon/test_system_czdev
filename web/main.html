@@ -1,8 +1,3 @@
-<?php
-	$badge = $_GET["badge"];
-	echo($badge);
-?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,24 +8,25 @@
 	<link rel="shortcut icon" href="img/favicon.svg">
 	<script src="jquery-3.6.4.min.js"></script>
 	<script src="eel.js"></script>
+	<script src="cz_functions.js"></script>
 	<title>Информационная система</title>
 </head>
 <body>
-		<span class="version">czt_v0.2.2_alpha</span>
+		<span class="version" id="app_version">czt_v0.2.2_alpha</span>
 		<div class="content">
 			<div class="user_info">
 				<div class="avatar"></div>
 				<div class="user_info_text">
 					<p id="user_info_full_name" class="user_info_name">
-						<span id="user_info_second_name">NaN</span>
-						<span id="user_info_first_name">NaN</span>
-						<span id="user_info_third_name">NaN</span>
+						<span id="user_info_second_name">Фамилия</span>
+						<span id="user_info_first_name">Имя</span>
+						<span id="user_info_third_name">Отчество</span>
 					</p>
-					<p id="user_info_badge">NaN</p>
-					<p id="user_info_position">NaN</p>
-					<p id="user_info_rang">NaN</p>
-					<p id="user_info_faculty">NaN</p>
-					<p id="user_info_department">NaN</p>
+					<p id="user_info_badge">Т-000000</p>
+					<p id="user_info_position">Должность</p>
+					<p id="user_info_rang">Звание</p>
+					<p id="user_info_faculty">Факультет</p>
+					<p id="user_info_department">Т00-00</p>
 				</div>
 				<div class="controls">
 				</div>
@@ -38,122 +34,7 @@
 
 
 
-			<div class="test_list">
-				<!-- <div class="theme">
-					<p class="theme_name">Основы профессионально-должностной подготовки</p>
-					<div class="theme_test_list">
-
-						<div class="test">
-							<div class="test_img"></div>
-							<div class="test_info">
-								<p class="test_name">Военно-политическая работа</p>
-								<div class="question_info">
-									<div class="test_time">
-										<div class="test_time_img"></div>
-										<p><span>120</span> мин</p>
-									</div>
-
-									<div class="test_questions">
-										<div class="test_questions_img"></div>
-										<p><span>30</span> вопросов</p>
-									</div>
-								</div>
-	
-								<button class="test_btn">Начать тест</button>
-							</div>
-						</div>
-
-
-						<div class="test">
-							<div class="test_img"></div>
-							<div class="test_info">
-								<p class="test_name">Военно-политическая работа</p>
-								<div class="question_info">
-									<div class="test_time">
-										<div class="test_time_img"></div>
-										<p><span>120</span> мин</p>
-									</div>
-
-									<div class="test_questions">
-										<div class="test_questions_img"></div>
-										<p><span>30</span> вопросов</p>
-									</div>
-								</div>
-	
-								<button class="test_btn">Начать тест</button>
-							</div>
-						</div>
-
-						<div class="test">
-							<div class="test_img"></div>
-							<div class="test_info">
-								<p class="test_name">Военно-политическая работа</p>
-								<div class="question_info">
-									<div class="test_time">
-										<div class="test_time_img"></div>
-										<p><span>120</span> мин</p>
-									</div>
-
-									<div class="test_questions">
-										<div class="test_questions_img"></div>
-										<p><span>30</span> вопросов</p>
-									</div>
-								</div>
-	
-								<button class="test_btn">Начать тест</button>
-							</div>
-						</div>
-
-					</div>	
-				</div> -->
-
-				<!-- <div class="theme">
-					<p class="theme_name">Название темы 2</p>
-					<div class="theme_test_list">
-
-						<div class="test">
-							<div class="test_img"></div>
-							<div class="test_info">
-								<p class="test_name">Военно-политическая работа</p>
-								<div class="question_info">
-									<div class="test_time">
-										<div class="test_time_img"></div>
-										<p><span>120</span> мин</p>
-									</div>
-
-									<div class="test_questions">
-										<div class="test_questions_img"></div>
-										<p><span>30</span> вопросов</p>
-									</div>
-								</div>
-	
-								<button class="test_btn">Начать тест</button>
-							</div>
-						</div>
-
-						<div class="test">
-							<div class="test_img"></div>
-							<div class="test_info">
-								<p class="test_name">Военно-политическая работа</p>
-								<div class="question_info">
-									<div class="test_time">
-										<div class="test_time_img"></div>
-										<p><span>120</span> мин</p>
-									</div>
-
-									<div class="test_questions">
-										<div class="test_questions_img"></div>
-										<p><span>30</span> вопросов</p>
-									</div>
-								</div>
-	
-								<button class="test_btn">Начать тест</button>
-							</div>
-						</div>
-
-					</div>	
-				</div> -->
-			</div>
+			<div class="test_list"></div>
 		</div>
 
 
@@ -164,14 +45,19 @@
 
 	<script type="text/javascript">
 
+		eel.expose(py_redirect)
+		function py_redirect(url) {
+			window.location.replace(url);
+		}
+
 		eel.expose(create_theme)
 		function create_theme(id, name) {
 			$(".test_list").append('<div class="theme"><p class="theme_name">'+name+'</p><div class="theme_test_list" id="theme_test_list_'+id+'"></div></div>');
 		}
 
 		eel.expose(create_test)
-		function create_test(id, name, time, questions) {
-			$("#theme_test_list_"+id).append('<div class="test"><div class="test_img"></div><div class="test_info"><p class="test_name">'+name+'</p><div class="question_info"><div class="test_time"><div class="test_time_img"></div><p>'+time+' мин</p></div><div class="test_questions"><div class="test_questions_img"></div><p>'+questions+' вопросов</p></div></div><button class="test_btn">Начать тест</button></div></div></div>');
+		function create_test(id, name, time, questions, test_id) {
+			$("#theme_test_list_"+id).append('<div class="test"><div class="test_img"></div><div class="test_info"><p class="test_name">'+name+'</p><div class="question_info"><div class="test_time"><div class="test_time_img"></div><p>'+time+' мин</p></div><div class="test_questions"><div class="test_questions_img"></div><p>'+questions+' вопросов</p></div></div><button class="test_btn" id="'+test_id+'">Начать тест</button></div></div></div>');
 		}
 
 		eel.expose(py_send_data)
@@ -180,27 +66,36 @@
 			console.log(field +" | "+ value);
 		}
 
+		$(".test_list").on('click', 'button', function(){
+			var id = $(this).attr("id");
+			eel.load_test(id);
+		})
+
 		eel.upd_data_main();
 		eel.crt_themes();
 		eel.crt_tests();
-
-		window.onresize = function () {
-			window.resizeTo(1016,639);
-		}
-
-		var permissons;
 
 		eel.expose(send_permission)
 		function send_permission(permission) {
 			console.log(permission);
 			if(permission == 1) {
-				$(".controls").append('<button>Панель управления</button>');
+				$(".controls").append('<button id="admin" onclick="load_admin_screen()">Панель управления</button>');
 				$(".controls").append('<button>Статистика</button>');
 			} else {
 				$(".controls").append('<button>Статистика</button>');
 			}
 		}
 
+		function load_admin_screen() {
+			py_redirect("/admin.html");
+		}
+
+		
+		eel.expose(upd_app_version) 
+		function upd_app_version(version) {$("#app_version").text(version)}
+		eel.get_app_version();
+		window.onresize = function () { window.resizeTo(1016,639); }
+		document.oncontextmenu = function (){return false};
 	</script>
 </body>
 </html>

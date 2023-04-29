@@ -8,10 +8,11 @@
 	<link rel="shortcut icon" href="img/favicon.svg">
 	<script src="jquery-3.6.4.min.js"></script>
 	<script src="eel.js"></script>
+	<script src="cz_functions.js"></script>
 	<title>Информационная система</title>
 </head>
 <body>
-	<span class="version">czt_v0.2.2_alpha</span>
+	<span class="version" id="app_version">czt_v0.2.2_alpha</span>
 	<div class="test_content">
 		<div class="user_info">
 				<div class="avatar"></div>
@@ -22,7 +23,7 @@
 						<span id="user_info_first_name">Имя</span>
 						<span id="user_info_third_name">Отчество</span>
 					</p>
-					<p class="user_info_two"><span id="user_info_position">Курсант</span>, <span id="user_info_position">Ефрейтор</span></p>
+					<p class="user_info_two"><span id="user_info_position">Курсант</span>, <span id="user_info_rang">Ефрейтор</span></p>
 				</div>
 
 				<div class="questions_progress">
@@ -42,20 +43,166 @@
 
 			<div class="test_contnet_questions">
 				<div class="question_head">
-					<p class="question_head_number">Вопрос №1</p>
+					<p class="question_head_number">Вопрос №<span id="question_id">1</span></p>
 					<p class="question_head_hint">Выберите подходящий ответ</p>
-					<p class="question_head_text">Когда солдат и матросов, прибывших на пополнение, приводят к военной присяге? </p>
+					<p class="question_head_text">Текст вопроса</p>
 				</div>
 				
 				<div class="question_variants">
-					<label for="q1"><input id="q1" type="radio" name="answer" style="margin-right: 10px;">По прибытии военнослужащего к первому месту прохождения военной службы после прохождения начальной военной подготовки, срок которой не должен превышать два месяца.</label>
-					<label for="q2"><input id="q2" type="radio" name="answer" style="margin-right: 10px;">После закрепления личного оружия и боевой техники</label>
-					<label for="q3"><input id="q3" type="radio" name="answer" style="margin-right: 10px;">После двух месяцев со дня прибытия в воинскую часть.</label>
+					<label for="q1"><input id="q1" type="radio" name="answer" style="margin-right: 10px;">Вариант ответа №1</label>
+					<label for="q2"><input id="q2" type="radio" name="answer" style="margin-right: 10px;">Вариант ответа №2</label>
+					<label for="q3"><input id="q3" type="radio" name="answer" style="margin-right: 10px;">Вариант ответа №3</label>
 				</div>
-				<button class="test_btn" style="left: 50px;">Предыдущий вопрос</button>
-				<button class="test_btn" style="right: 50px;">Следующий вопрос</button>
+				<button class="test_btn" id="btn_prev_question" onclick="load_prev_question()" style="left: 50px;">Предыдущий вопрос</button>
+				<button class="test_btn" id="btn_end_test" onclick="end_test_load()" style="right: 50px; background: #4caf50; border: 1px solid #4caf50;">Завершить тест</button>
+				<button class="test_btn" id="btn_next_question" onclick="load_next_question()" style="right: 50px;">Следующий вопрос</button>
 			</div>
 	</div>
+
+	<div class="test_end_screen">
+		<p class="end_test_name" id="end_test_name">Название теста</p>
+		<div class="firework"></div>
+		<p class="end_test_label">Тестирование завершено!</p>
+		<p class="end_test_questions">Вы ответили на <span>10</span> из <span>10</span> вопросов</p>
+		<p class="end_test_result">Ваш результат:</p>
+		<p class="end_test_result">30 баллов (100%)</p>
+		<button class="test_btn" onclick="goto_main()" style="margin: 0 auto;">В главное меню</button>
+	</div>
+
+	<script type="text/javascript">
+		$(".test_end_screen").hide();
+		$("#btn_end_test").hide();
+		$("#btn_prev_question").hide();
+		$(".question_variants").empty();
+
+		let answers = [];
+		let r_answers = [];
+		let right_answers = [];
+		let question_num = 1;
+		let test_id;
+		let answ;
+		let r_ans;
+		let db_question_id;
+		
+		eel.get_test_id();
+		eel.upd_data_test();
+
+		eel.expose(set_test_id)
+		function set_test_id(id) {
+			test_id = id;
+			eel.upd_test_question(test_id ,question_num);
+		}
+
+		eel.expose(set_db_question_id)
+		function set_db_question_id(id) {
+			db_question_id = id;
+		}
+
+		eel.expose(upd_question_text)
+		function upd_question_text(text) {
+			$(".question_head_text").text(text);
+			$("#question_id").text(question_num);
+		}
+
+		eel.expose(add_answer_test)
+		function add_answer_test(id, text) {
+			/*console.log(text);*/
+			$(".question_variants").append('<label><input class="q'+question_num+'" type="radio" name="answer" style="margin-right: 10px;" value="'+id+'">'+text+'</label>');
+		}
+
+		eel.expose(py_send_data)
+		function py_send_data(field, value) {
+			$("#"+field).text(value);
+			/*console.log(field +" | "+ value);*/
+		}
+
+		eel.expose(get_right_answer)
+		function get_right_answer(query) {
+			r_answers[question_num-1] = query;
+			r_ans = query;
+		}
+
+		function load_next_question() {
+			$(".question_variants").empty();
+			$("#questions_progress_now").text(question_num);
+			get_checked_answer()
+			eel.py_get_right_answer(db_question_id)
+			answers[question_num] = 1;
+			question_num = question_num + 1
+			eel.upd_test_question(test_id, question_num);
+			console.log("your answer: " + answ);
+			console.log("right answer: " + r_ans);
+			if(question_num > 1) {
+				$("#btn_prev_question").show();
+			}
+
+			if(question_num == $("#questions_progress_vsego").text()) {
+				$("#btn_end_test").show();
+				$("#btn_next_question").hide();
+			}
+		}
+
+		function load_prev_question() {
+			$(".question_variants").empty();
+			$("#btn_next_question").show();
+			question_num = question_num - 1;
+			$("#questions_progress_now").text(question_num);
+			eel.upd_test_question(test_id, question_num);
+			if(question_num < 2) {
+				$("#btn_prev_question").hide();
+			}
+
+			if(question_num != $("#questions_progress_vsego").text()) {
+				$("#btn_end_test").hide();
+			}
+		}
+
+		function end_test_load() {
+			get_checked_answer();
+			eel.py_get_right_answer(db_question_id)
+			eel.upd_end_data_test()
+			$(".test_end_screen").show();
+			$(".test_content").hide();
+			question_num = question_num + 1;
+			console.log("your answer: " + answ);
+			console.log("right answer: " + r_ans);
+			var res_str = "";
+			var len = answers.length;
+			for(i of answers) {
+				if(i) {
+					res_str = res_str + ","+i;
+				}
+			}
+			console.log(answers);
+			console.log(r_answers);
+		}
+
+		function get_checked_answer() {
+			const fruits = document.querySelectorAll('input[name="answer"]')
+			for (const f of fruits) {
+				if (f.checked) {
+					answers[question_num] = Number(f.value);
+					answ = Number(f.value);
+					/*checked_question_id = */
+				} else {
+					ans = 0;
+				}
+			}
+		}
+
+		function goto_main() {
+			window.location.replace("main.html");
+		}
+
+
+		
+
+		eel.expose(upd_app_version) 
+		function upd_app_version(version) {$("#app_version").text(version)}
+		eel.get_app_version();
+		window.onresize = function () { window.resizeTo(1016,639); }
+		document.oncontextmenu = function (){return false};
+	</script>
 
 </body>
 </html>

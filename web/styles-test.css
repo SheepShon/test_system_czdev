@@ -3,6 +3,7 @@
 	padding: 0px;
     outline: none;
     font-family: "Montserrat", sans-serif;
+    user-select: none;
 }
 
 body {
@@ -125,4 +126,48 @@ button {
 .test_btn {
     position:absolute;
     bottom: 50px;
+}
+
+
+
+
+.test_end_screen {
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.end_test_name {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.firework {
+    width: 150px;
+    height: 150px;
+    background: url("img/f1.gif");
+    background-size: cover;
+}
+
+.end_test_label {
+    font-size: 30px;
+    font-weight: 700;
+}
+
+.end_test_questions {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 30px auto;
+}
+
+.end_test_questions span {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.end_test_result {
+    font-size: 18px;
+    font-weight: 500;
+    margin: 5px auto;
 }

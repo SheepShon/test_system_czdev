@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="styles-admin.css">
+	<link rel="stylesheet" type="text/css" href="fonts.css">
+	<link rel="shortcut icon" href="img/favicon.svg">
+	<script src="jquery-3.6.4.min.js"></script>
+	<script src="eel.js"></script>
+	<script src="cz_functions.js"></script>
+	<title>Информационная система</title>
+</head>
+<body>
+	<div class="admin-content">
+		<span class="version" id="app_version">czt_v0.2.2_alpha</span>
+	</div>
+
+
+	<script type="text/javascript">
+
+
+
+
+		
+		eel.expose(upd_app_version) 
+		function upd_app_version(version) {$("#app_version").text(version)}
+		eel.get_app_version();
+		window.onresize = function () { window.resizeTo(1016,639); }
+		document.oncontextmenu = function (){return false};
+	</script>
+</body>
+</html>
